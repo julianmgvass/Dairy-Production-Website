@@ -157,10 +157,7 @@
             <p><strong>Location:</strong> Medawachchiya, Sri Lanka</p>
             <p><strong>Phone:</strong> 076 588 8046 / 072 430 8540</p>
         </div>
-            <form class="contact-form"
-      action="https://formsubmit.co/julianmgvass@gmail.com"
-      method="POST">
-
+            <form class="contact-form" id="contactForm">
     <input type="text"
            name="name"
            placeholder="Your Name"
@@ -182,12 +179,10 @@
     <input type="hidden"
            name="_captcha"
            value="false">
-    <input type="hidden"
-           name="_next"
-           value="https://julianmgvass.github.io/Dairy-Production-Website/#contact">
     <button type="submit">
         Send Message
     </button>
+    <p id="form-status"></p>
 </form>
         </div>
     </div>
@@ -221,6 +216,49 @@
             navLinks.classList.remove('active');
         });
     });
+    <script>
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('form-status');
+
+    contactForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        formStatus.textContent = 'Sending message...';
+        formStatus.style.color = '#2e7d32';
+
+        const formData = new FormData(contactForm);
+
+        try {
+            const response = await fetch(
+                'https://formsubmit.co/ajax/julianmgvass@gmail.com',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    body: formData
+                }
+            );
+
+            if (response.ok) {
+                formStatus.textContent =
+                    '✓ Message sent successfully! Thank you for contacting St. Joseph Products.';
+                formStatus.style.color = '#2e7d32';
+
+                contactForm.reset();
+            } else {
+                formStatus.textContent =
+                    'Sorry, your message could not be sent. Please try again.';
+                formStatus.style.color = '#c62828';
+            }
+
+        } catch (error) {
+            formStatus.textContent =
+                'Something went wrong. Please try again.';
+            formStatus.style.color = '#c62828';
+        }
+    });
+</script>
 </script>
 </body>
 </html>

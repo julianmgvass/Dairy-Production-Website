@@ -204,23 +204,26 @@
     </div>
 </footer>
 <script>
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
 
-    menuToggle.addEventListener('click', () => {
+if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', function () {
         navLinks.classList.toggle('active');
     });
 
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
+    document.querySelectorAll('.nav-links a').forEach(function (link) {
+        link.addEventListener('click', function () {
             navLinks.classList.remove('active');
         });
     });
-    <script>
-    const contactForm = document.getElementById('contactForm');
-    const formStatus = document.getElementById('form-status');
+}
 
-    contactForm.addEventListener('submit', async function(event) {
+const contactForm = document.getElementById('contactForm');
+const formStatus = document.getElementById('form-status');
+
+if (contactForm && formStatus) {
+    contactForm.addEventListener('submit', async function (event) {
         event.preventDefault();
 
         formStatus.textContent = 'Sending message...';
@@ -244,21 +247,19 @@
                 formStatus.textContent =
                     '✓ Message sent successfully! Thank you for contacting St. Joseph Products.';
                 formStatus.style.color = '#2e7d32';
-
                 contactForm.reset();
             } else {
                 formStatus.textContent =
                     'Sorry, your message could not be sent. Please try again.';
                 formStatus.style.color = '#c62828';
             }
-
         } catch (error) {
             formStatus.textContent =
                 'Something went wrong. Please try again.';
             formStatus.style.color = '#c62828';
         }
     });
-</script>
+}
 </script>
 </body>
 </html>

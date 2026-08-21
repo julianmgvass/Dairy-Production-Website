@@ -353,7 +353,7 @@ nav a:hover::after {
 .products h2 {
     font-size: 36px;
     color: #1f3d24;
-    margin-botttom: 10px;
+    margin-bottom: 10px;
 }
 .products > p {
     color: #666666;
@@ -408,7 +408,7 @@ nav a:hover::after {
 .about-highlight h3 {
     color: #2e7d32;
     font-size: 12px;
-}}
+}
 .contact {
     padding: 80px 6%;
     background: linear-gradient(135deg, #ffffff, #f3f8f2);

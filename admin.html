@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login | St. Joseph Products</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+
+            background:
+                radial-gradient(circle at top right,
+                rgba(76, 175, 80, 0.20),
+                transparent 35%),
+                linear-gradient(135deg, #0d2413, #173d1e);
+        }
+
+        .login-card {
+            width: 90%;
+            max-width: 420px;
+
+            padding: 45px 35px;
+
+            background: linear-gradient(
+    145deg,
+    rgba(14, 63, 28, 0.96),
+    rgba(9, 45, 20, 0.98)
+);
+            border-radius: 22px;
+
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.30);
+
+            animation: loginEnter 0.8s ease;
+        }
+
+        .login-card h1 {
+            color: #173d1e;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .login-card .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 7px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 15px;
+
+            border: 1px solid #ddd;
+            border-radius: 10px;
+
+            font-size: 15px;
+            outline: none;
+
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: #2e7d32;
+            color: white;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #1f6425;
+            transform: translateY(-2px);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #login-message {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+
+            color: #2e7d32;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        @keyframes loginEnter {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        /* =========================
+   PREMIUM LOGIN POLISH
+========================= */
+
+body {
+    position: relative;
+    overflow: hidden;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(10px);
+    opacity: 0.35;
+    animation: floatGlow 8s ease-in-out infinite;
+}
+
+body::before {
+    width: 320px;
+    height: 320px;
+    background: #2e7d32;
+    top: -100px;
+    right: -80px;
+}
+
+body::after {
+    width: 260px;
+    height: 260px;
+    background: #81c784;
+    bottom: -100px;
+    left: -70px;
+    animation-delay: 2s;
+}
+
+.login-card {
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+
+    border: 1px solid rgba(255, 255, 255, 0.55);
+
+    backdrop-filter: blur(14px);
+
+    animation:
+        loginEnter 0.9s cubic-bezier(.2,.8,.2,1),
+        cardFloat 5s ease-in-out 1s infinite;
+}
+
+.login-card::before {
+    content: "";
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    border-radius: 50%;
+
+    background: rgba(76, 175, 80, 0.08);
+
+    top: -80px;
+    right: -70px;
+}
+
+.login-card h1 {
+    font-size: 30px;
+    letter-spacing: -0.5px;
+
+    animation: fadeDown 0.8s ease 0.15s both;
+}
+
+.login-card .subtitle {
+    animation: fadeDown 0.8s ease 0.25s both;
+}
+
+.input-group {
+    animation: fadeUp 0.7s ease both;
+}
+
+.input-group:nth-of-type(1) {
+    animation-delay: 0.35s;
+}
+
+.input-group:nth-of-type(2) {
+    animation-delay: 0.45s;
+}
+
+.login-btn {
+    position: relative;
+    overflow: hidden;
+
+    box-shadow: 0 10px 25px rgba(46, 125, 50, 0.25);
+
+    animation: fadeUp 0.7s ease 0.55s both;
+}
+
+.login-btn::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            110deg,
+            transparent,
+            rgba(255,255,255,0.35),
+            transparent
+        );
+
+    transition: 0.6s;
+}
+
+.login-btn:hover::before {
+    left: 140%;
+}
+
+.back-link {
+    animation: fadeUp 0.7s ease 0.65s both;
+}
+
+#login-message {
+    transition: 0.3s ease;
+}
+
+
+/* Wrong login shake */
+.login-card.shake {
+    animation: shakeCard 0.4s ease;
+}
+
+
+/* Animations */
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes cardFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes floatGlow {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-20px) scale(1.08);
+    }
+}
+
+@keyframes shakeCard {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-8px);
+    }
+
+    50% {
+        transform: translateX(8px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+}
+/* =========================
+   TABLE LAMP INTRO
+========================= */
+
+.lamp-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        radial-gradient(circle at center bottom,
+        #17251b 0%,
+        #09100b 45%,
+        #030604 100%);
+
+    transition:
+        opacity 0.8s ease,
+        visibility 0.8s ease;
+}
+
+.lamp-scene {
+    position: relative;
+    width: 320px;
+    height: 430px;
+    text-align: center;
+}
+
+.lamp {
+    position: absolute;
+    left: 50%;
+    top: 80px;
+
+    width: 180px;
+    height: 260px;
+
+    transform: translateX(-50%);
+    z-index: 3;
+}
+
+.lamp-shade {
+    position: absolute;
+    left: 50%;
+    top: 0;
+
+    width: 150px;
+    height: 85px;
+
+    transform: translateX(-50%);
+
+    background: linear-gradient(
+        145deg,
+        #303530,
+        #111411
+    );
+
+    clip-path: polygon(
+        25% 0,
+        75% 0,
+        100% 100%,
+        0 100%
+    );
+
+    border-radius: 12px 12px 20px 20px;
+
+    box-shadow:
+        0 15px 30px rgba(0,0,0,0.45);
+
+    transition: 0.7s ease;
+}
+
+.lamp-neck {
+    position: absolute;
+
+    width: 10px;
+    height: 140px;
+
+    left: 50%;
+    top: 80px;
+
+    transform: translateX(-50%);
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #1b1e1b,
+            #555c56,
+            #161916
+        );
+}
+
+.lamp-base {
+    position: absolute;
+
+    width: 120px;
+    height: 22px;
+
+    left: 50%;
+    bottom: 15px;
+
+    transform: translateX(-50%);
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            #464c47,
+            #171a17
+        );
+
+    box-shadow:
+        0 15px 30px rgba(0,0,0,0.6);
+}
+
+.lamp-switch {
+    position: absolute;
+
+    right: 0;
+    top: 105px;
+
+    width: 38px;
+    height: 38px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+
+    background: #161a16;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,0.5);
+
+    transition: 0.3s ease;
+}
+
+.lamp-switch span {
+    position: absolute;
+
+    width: 4px;
+    height: 13px;
+
+    background: #8a928b;
+
+    border-radius: 5px;
+
+    left: 50%;
+    top: 6px;
+
+    transform: translateX(-50%);
+}
+
+.lamp-switch:hover {
+    transform: scale(1.12);
+}
+
+.light-beam {
+    position: absolute;
+
+    width: 290px;
+    height: 300px;
+
+    left: 50%;
+    top: 135px;
+
+    transform:
+        translateX(-50%)
+        scaleY(0.2);
+
+    transform-origin: top;
+
+    clip-path: polygon(
+        38% 0,
+        62% 0,
+        100% 100%,
+        0 100%
+    );
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255, 226, 150, 0.50),
+            rgba(255, 219, 125, 0.12),
+            transparent
+        );
+
+    opacity: 0;
+
+    filter: blur(5px);
+
+    transition:
+        opacity 0.8s ease,
+        transform 1s cubic-bezier(.2,.8,.2,1);
+}
+
+.lamp-intro-text {
+    position: absolute;
+
+    bottom: 0;
+    width: 100%;
+
+    color: white;
+
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+}
+
+.lamp-intro-text h2 {
+    margin-bottom: 8px;
+
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.lamp-intro-text p {
+    color: rgba(255,255,255,0.55);
+    font-size: 13px;
+}
+
+
+/* Lamp ON */
+
+.lamp-intro.lamp-on .lamp-shade {
+    background:
+        linear-gradient(
+            145deg,
+            #fff0b5,
+            #c99b3d
+        );
+
+    box-shadow:
+        0 15px 50px rgba(255,210,100,0.45);
+}
+
+.lamp-intro.lamp-on .light-beam {
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        scaleY(1);
+}
+
+.lamp-intro.lamp-on .lamp-switch {
+    background: #d3a947;
+
+    box-shadow:
+        0 0 25px rgba(255,215,120,0.5);
+}
+
+.lamp-intro.lamp-on .lamp-intro-text {
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+
+/* Intro exit */
+
+.lamp-intro.intro-finished {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+
+/* Login initially hidden */
+
+#loginCard {
+    opacity: 0;
+    transform: translateY(25px) scale(0.96);
+    pointer-events: none;
+}
+
+
+/* Login reveal */
+
+#loginCard.login-reveal {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s cubic-bezier(.2,.8,.2,1);
+}
+/* =========================
+   PREMIUM BACKGROUND BUBBLES
+========================= */
+
+.login-bubbles {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.login-bubbles span {
+    position: absolute;
+    bottom: -120px;
+
+    display: block;
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+
+    background: rgba(129, 199, 132, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    box-shadow:
+        inset 0 0 18px rgba(255, 255, 255, 0.05),
+        0 0 25px rgba(76, 175, 80, 0.08);
+
+    backdrop-filter: blur(2px);
+
+    animation: bubbleRise 16s linear infinite;
+}
+
+/* Different positions / sizes */
+
+.login-bubbles span:nth-child(1) {
+    left: 8%;
+    width: 35px;
+    height: 35px;
+    animation-duration: 13s;
+}
+
+.login-bubbles span:nth-child(2) {
+    left: 20%;
+    width: 70px;
+    height: 70px;
+    animation-duration: 19s;
+    animation-delay: 2s;
+}
+
+.login-bubbles span:nth-child(3) {
+    left: 35%;
+    width: 28px;
+    height: 28px;
+    animation-duration: 12s;
+    animation-delay: 4s;
+}
+
+.login-bubbles span:nth-child(4) {
+    left: 48%;
+    width: 90px;
+    height: 90px;
+    animation-duration: 22s;
+    animation-delay: 1s;
+}
+
+.login-bubbles span:nth-child(5) {
+    left: 62%;
+    width: 42px;
+    height: 42px;
+    animation-duration: 15s;
+    animation-delay: 5s;
+}
+
+.login-bubbles span:nth-child(6) {
+    left: 74%;
+    width: 65px;
+    height: 65px;
+    animation-duration: 18s;
+    animation-delay: 3s;
+}
+
+.login-bubbles span:nth-child(7) {
+    left: 86%;
+    width: 30px;
+    height: 30px;
+    animation-duration: 14s;
+    animation-delay: 6s;
+}
+
+.login-bubbles span:nth-child(8) {
+    left: 94%;
+    width: 80px;
+    height: 80px;
+    animation-duration: 21s;
+    animation-delay: 2s;
+}
+
+@keyframes bubbleRise {
+
+    0% {
+        transform:
+            translateY(0)
+            scale(0.8);
+
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    50% {
+        transform:
+            translateY(-55vh)
+            translateX(25px)
+            scale(1);
+    }
+
+    100% {
+        transform:
+            translateY(-120vh)
+            translateX(-25px)
+            scale(1.15);
+
+        opacity: 0;
+    }
+}
+
+/* Keep login above bubbles */
+
+#loginCard {
+    z-index: 5;
+}
+/* =========================
+   PREMIUM DASHBOARD POLISH
+========================= */
+
+body {
+    background:
+        radial-gradient(circle at top right, rgba(76, 175, 80, 0.10), transparent 30%),
+        #f3f7f3;
+}
+
+.sidebar {
+    position: relative;
+    overflow: hidden;
+
+    box-shadow: 8px 0 30px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar::before,
+.sidebar::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+}
+
+.sidebar::before {
+    width: 180px;
+    height: 180px;
+    top: -70px;
+    right: -70px;
+}
+
+.sidebar::after {
+    width: 120px;
+    height: 120px;
+    bottom: 40px;
+    left: -50px;
+}
+
+.sidebar h2,
+.sidebar p,
+.sidebar button {
+    position: relative;
+    z-index: 2;
+}
+
+.sidebar h2 {
+    font-size: 24px;
+    letter-spacing: -0.5px;
+}
+
+.sidebar button {
+    transition: 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.sidebar button:hover {
+    transform: translateY(-3px);
+    background: #eaf5eb;
+}
+
+.main {
+    animation: dashboardEnter 0.7s ease both;
+}
+
+.topbar {
+    padding: 22px 26px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+}
+
+.topbar h1 {
+    font-size: 30px;
+    letter-spacing: -0.7px;
+}
+
+.panel {
+    border: 1px solid rgba(0,0,0,0.03);
+    transition: 0.3s ease;
+}
+
+.panel:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 35px rgba(0,0,0,0.08);
+}
+
+.form-grid input,
+.form-grid textarea,
+.form-grid select {
+    background: #fbfdfb;
+    transition: 0.3s ease;
+}
+
+.form-grid input:focus,
+.form-grid textarea:focus,
+.form-grid select:focus {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 3px rgba(46,125,50,0.10);
+    background: #ffffff;
+}
+
+.save-btn {
+    box-shadow: 0 8px 20px rgba(46,125,50,0.20);
+    transition: 0.3s ease;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    background: #1f6425;
+}
+
+.cancel-btn {
+    transition: 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background: #dddddd;
+}
+
+.products-table tbody tr {
+    transition: 0.25s ease;
+}
+
+.products-table tbody tr:hover {
+    background: #f7fbf7;
+}
+
+.product-thumb {
+    transition: 0.3s ease;
+}
+
+.products-table tbody tr:hover .product-thumb {
+    transform: scale(1.08);
+}
+
+.edit-btn,
+.delete-btn {
+    transition: 0.25s ease;
+}
+
+.edit-btn:hover {
+    background: #c8e6c9;
+}
+
+.delete-btn:hover {
+    background: #ffcdd2;
+}
+
+.image-upload-box {
+    transition: 0.3s ease;
+}
+
+.image-upload-box:hover {
+    border-color: #81c784;
+    background: #f4faf4;
+}
+
+@keyframes dashboardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Dark Premium Login Card */
+
+#loginCard {
+    color: #ffffff;
+}
+
+#loginCard h1 {
+    color: #ffffff;
+}
+
+#loginCard .subtitle {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+#loginCard .input-group label {
+    color: #f3fff4;
+}
+
+#loginCard .input-group input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+#loginCard .input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+#loginCard .input-group input:focus {
+    border-color: #81c784;
+    box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.16);
+    background: rgba(255, 255, 255, 0.11);
+}
+
+#loginCard .login-btn {
+    background: linear-gradient(
+        135deg,
+        #43a047,
+        #2e7d32
+    );
+
+    box-shadow: 0 10px 28px rgba(46, 125, 50, 0.35);
+}
+
+#loginCard .login-btn:hover {
+    background: linear-gradient(
+        135deg,
+        #4caf50,
+        #256b2a
+    );
+}
+
+#loginCard .back-link {
+    color: #a5d6a7;
+}
+
+#loginCard .back-link:hover {
+    color: #ffffff;
+}
+/* FINAL LOGIN COLOR OVERRIDE */
+
+/* Big page background = dark green */
+body {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(76, 175, 80, 0.22),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(129, 199, 132, 0.12),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #06180b,
+            #0b2b14 50%,
+            #123b1d
+        ) !important;
+}
+
+/* Login card = light */
+#loginCard {
+    background: rgba(255, 255, 255, 0.97) !important;
+    color: #173d1e !important;
+
+    border: 1px solid rgba(255,255,255,0.4);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.48),
+        0 0 40px rgba(76,175,80,0.08);
+}
+
+/* Title */
+#loginCard h1 {
+    color: #173d1e !important;
+}
+
+/* Subtitle */
+#loginCard .subtitle {
+    color: #777 !important;
+}
+
+/* Labels */
+#loginCard .input-group label {
+    color: #333 !important;
+}
+
+/* Inputs */
+#loginCard .input-group input {
+    background: #ffffff !important;
+    color: #222 !important;
+    border: 1px solid #dddddd !important;
+}
+
+/* Placeholder */
+#loginCard .input-group input::placeholder {
+    color: #999 !important;
+}
+
+/* Input focus */
+#loginCard .input-group input:focus {
+    background: #ffffff !important;
+    border-color: #2e7d32 !important;
+    box-shadow: 0 0 0 3px rgba(46,125,50,0.12) !important;
+}
+
+/* Green login button */
+#loginCard .login-btn {
+    background: linear-gradient(
+        135deg,
+        #43a047,
+        #2e7d32
+    ) !important;
+
+    color: white !important;
+}
+
+/* Back link */
+#loginCard .back-link {
+    color: #2e7d32 !important;
+}
+
+#loginCard .back-link:hover {
+    color: #173d1e !important;
+}
+
+/* Small decoration inside card */
+#loginCard::before {
+    background: rgba(76,175,80,0.08) !important;
+}
+    </style>
+</head>
+
+<body>
+    <div class="login-bubbles" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+    <div id="lampIntro" class="lamp-intro">
+
+    <div class="lamp-scene">
+
+        <div class="light-beam"></div>
+
+        <div class="lamp">
+            <div class="lamp-shade"></div>
+            <div class="lamp-neck"></div>
+            <div class="lamp-base"></div>
+
+            <button id="lampSwitch"
+                    class="lamp-switch"
+                    aria-label="Turn on admin portal">
+                <span></span>
+            </button>
+        </div>
+
+        <div class="lamp-intro-text">
+            <h2>Welcome Back</h2>
+            <p>Turn on the light to access the admin portal</p>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="login-card" id="loginCard">
+
+        <h1>St. Joseph Products</h1>
+
+        <p class="subtitle">
+            Owner Administration Portal
+        </p>
+
+       <form id="loginForm" autocomplete="off">
+
+            <div class="input-group">
+                <label for="adminEmail">Email Address</label>
+
+                <input
+                    type="email"
+                    id="adminEmail"
+                    placeholder="Enter admin email"
+                    autocomplete="off"
+                    required
+                >
+            </div>
+
+            <div class="input-group">
+                <label for="adminPassword">Password</label>
+
+                <input
+                    type="password"
+                    id="adminPassword"
+                    placeholder="Enter password"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="login-btn"
+                id="loginButton">
+                Login to Dashboard
+            </button>
+
+            <p id="login-message"></p>
+
+        </form>
+
+        <a href="index.html" class="back-link">
+            ← Back to Website
+        </a>
+
+    </div>
+
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+
+    <script src="firebase-config.js"></script>
+
+
+    <script>
+        firebase.initializeApp(firebaseConfig);
+
+        const auth = firebase.auth();
+        const OWNER_UID = "3JGgArfvJ9MiptYPlSE02rPh2cu2";
+
+        const loginForm =
+            document.getElementById('loginForm');
+
+        const loginButton =
+            document.getElementById('loginButton');
+
+        const loginMessage =
+            document.getElementById('login-message');
+
+
+        loginForm.addEventListener('submit', async function(event) {
+
+            event.preventDefault();
+
+            const email =
+                document.getElementById('adminEmail').value.trim();
+
+            const password =
+                document.getElementById('adminPassword').value;
+
+
+            loginButton.disabled = true;
+            loginButton.textContent = 'Signing in...';
+
+            loginMessage.textContent = '';
+            
+
+            try {
+
+                const userCredential =
+    await auth.signInWithEmailAndPassword(email, password);
+
+const user = userCredential.user;
+
+if (user.uid !== OWNER_UID) {
+
+    await auth.signOut();
+
+    loginMessage.style.color = '#c62828';
+    loginMessage.textContent =
+        'Unauthorized access. This portal is restricted to the website owner.';
+
+    loginButton.disabled = false;
+    loginButton.textContent = 'Login to Dashboard';
+
+    return;
+}
+
+                loginMessage.style.color = '#2e7d32';
+
+                loginMessage.textContent =
+                    '✓ Login successful!';
+
+
+                setTimeout(function() {
+
+                    window.location.href =
+                        'dashboard.html';
+
+                }, 800);
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                loginMessage.style.color = '#c62828';
+
+                loginMessage.textContent =
+                    'Invalid email or password. Please try again.';
+
+                loginButton.disabled = false;
+
+                loginButton.textContent =
+                    'Login to Dashboard';
+                   
+
+loginCard.classList.remove('shake');
+
+// Restart the shake animation
+void loginCard.offsetWidth;
+
+loginCard.classList.add('shake');
+
+setTimeout(function() {
+    loginCard.classList.remove('shake');
+}, 500);
+            }
+
+        });
+const lampIntro =
+    document.getElementById('lampIntro');
+
+const lampSwitch =
+    document.getElementById('lampSwitch');
+
+const loginCard =
+    document.getElementById('loginCard');
+
+lampSwitch.addEventListener('click', function () {
+
+    // Turn lamp on
+    lampIntro.classList.add('lamp-on');
+
+    // After light animation, reveal login
+    setTimeout(function () {
+
+        lampIntro.classList.add('intro-finished');
+
+        loginCard.classList.add('login-reveal');
+
+    }, 1200);
+
+});
+    </script>
+
+</body>
+</html>

@@ -12,7 +12,7 @@
 <meta name="author"
       content="St. Joseph Products">
 
-<link rel="icon" type="image/png" href="images/milk-yoghurt.png">
+<link rel="icon" type="image/png" href="images/st-joseph-logo.png">
     <title>St. Joseph Products | Quality Dairy Products</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -87,48 +87,9 @@
         <h2>Our Products</h2>
         <p>Discover our range of high-quality dairy products, carefully crafted for your family's enjoyment.</p>
     </div>
-    <div class="product-grid">
-        <div class="product-card">
-            <img src="images/milk-yoghurt.png" alt="St. Joseph Products Milk Yoghurt">
-                <h3>Milk Yoghurt</h3>
-                <p>Fresh and creamy set yoghurt made for everyday enjoyment.</p>
-            </div>
-            <div class="product-card">
-                <img src="images/jelly-yoghurt.png" alt="St. Joseph Products Jelly Yoghurt">
-                <h3>Jelly Yoghurt</h3>
-                <p>Fresh and creamy yoghurt combined with delicious fruity jelly.</p>
-            </div>
-            <div class="product-card">
-                <img src="images/jelly-pudding.png" alt="St. Joseph Products Jelly Pudding">
-                
-                <h3>Jelly Pudding</h3>
-                <p>Soft and delicious jelly pudding with a smooth, refreshing taste.</p>
-            </div>
-            <div class="product-card">
-                <img src="images/watalappan.png" alt="St. Joseph Products Watalappan">
-                <h3>Watalappan</h3>
-                <p>Traditional Sri Lankan dessert made with coconut milk and jaggery.</p>
-            </div>
-            <div class="product-card">
-                <img src="images/low-fat-yoghurt-vanilla.png" alt="St. Joseph Products Low Fat Yoghurt Drink - Vanilla Flavour">
-                <h3>Low Fat Yoghurt Drink - Vanilla Flavour</h3>
-                <p>A delicious low fat yoghurt drink with a smooth vanilla flavour.</p>
-            </div>
-            <div class="product-card">
-                <img src="images/low-fat-yoghurt-banana.png" alt="St. Joseph Products Low Fat Yoghurt Drink - Banana Flavour">
-                <h3>Low Fat Yoghurt Drink - Banana Flavour</h3>
-                <p>A delicious low fat yoghurt drink with a refreshing banana flavour.</p>
-            </div>
-            <div class="product-card">
-                <img src="images/low-fat-yoghurt-strawberry.png" alt="St. Joseph Products Low Fat Yoghurt Drink - Strawberry Flavour">
-                <h3>Low Fat Yoghurt Drink - Strawberry Flavour</h3>
-                <p>A delicious low fat yoghurt drink with a refreshing strawberry flavour.</p>
-            </div>
-            <div class="product-card">
-                <img src="images/low-fat-yoghurt-mango.png" alt="St. Joseph Products Low Fat Yoghurt Drink - Mango Flavour">
-                <h3>Low Fat Yoghurt Drink - Mango Flavour</h3>
-                <p>A delicious low fat yoghurt drink with a refreshing mango flavour.</p>
-            </div>
+        <div class="product-grid" id="productsGrid">
+    <p id="productsLoading">Loading products...</p>
+</div>
             </section>
         </div>
        <section class="about" id="about">
@@ -213,6 +174,9 @@
         </p>
     </div>
 </footer>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
 <script>
 const menuToggle = document.querySelector('.menu-toggle');
 const navLinks = document.querySelector('.nav-links');
@@ -270,6 +234,56 @@ if (contactForm && formStatus) {
         }
     });
 }
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
+const productsDb = firebase.firestore();
+const productsGrid = document.getElementById('productsGrid');
+
+productsDb.collection('products')
+    .orderBy('createdAt', 'asc')
+    .onSnapshot(function(snapshot) {
+
+        productsGrid.innerHTML = '';
+
+        if (snapshot.empty) {
+            productsGrid.innerHTML =
+                '<p>No products available at the moment.</p>';
+            return;
+        }
+
+        snapshot.forEach(function(doc) {
+
+            const product = doc.data();
+
+            const card = document.createElement('div');
+            card.className = 'product-card';
+
+            const image = document.createElement('img');
+            image.src = product.image;
+            image.alt = 'St. Joseph Products ' + product.name;
+
+            const title = document.createElement('h3');
+            title.textContent = product.name;
+
+            const description = document.createElement('p');
+            description.textContent = product.description;
+
+            card.appendChild(image);
+            card.appendChild(title);
+            card.appendChild(description);
+
+            productsGrid.appendChild(card);
+        });
+
+    }, function(error) {
+
+        console.error('Error loading products:', error);
+
+        productsGrid.innerHTML =
+            '<p>Products could not be loaded. Please try again later.</p>';
+    });
 </script>
 <a href="https://wa.me/94762081226"
    class="whatsapp-float"

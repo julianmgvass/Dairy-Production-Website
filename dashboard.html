@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | St. Joseph Products</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f4;
+            color: #222;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: linear-gradient(180deg, #12351a, #1f5428);
+            color: white;
+            padding: 30px 22px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 8px;
+        }
+
+        .sidebar p {
+            color: #d6ead9;
+            font-size: 14px;
+            margin-bottom: 35px;
+        }
+
+        .sidebar button {
+            width: 100%;
+            padding: 12px 14px;
+            border: none;
+            border-radius: 10px;
+            background: #ffffff;
+            color: #1f5428;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .main {
+            padding: 35px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            color: #173d1e;
+        }
+
+        .admin-email {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .panel {
+            background: white;
+            padding: 28px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            margin-bottom: 30px;
+        }
+
+        .panel h2 {
+            margin-bottom: 20px;
+            color: #1f5428;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-grid input,
+        .form-grid textarea,
+        .form-grid select {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font: inherit;
+            outline: none;
+        }
+
+        .form-grid textarea {
+            grid-column: 1 / -1;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 12px;
+        }
+
+        .save-btn,
+        .cancel-btn {
+            padding: 13px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .save-btn {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #ececec;
+            color: #333;
+            display: none;
+        }
+
+        #statusMessage {
+            margin-top: 14px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .products-table th,
+        .products-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .products-table th {
+            background: #f4f8f3;
+            color: #1f5428;
+        }
+
+        .product-thumb {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 6px;
+            font-weight: 600;
+        }
+
+        .edit-btn {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .delete-btn {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .products-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        .image-upload-box {
+    border: 2px dashed #d7e5d8;
+    border-radius: 14px;
+    padding: 18px;
+    background: #f9fcf9;
+}
+
+.image-upload-box label {
+    display: block;
+    margin-bottom: 10px;
+    color: #1f5428;
+    font-weight: 600;
+}
+
+.image-upload-box input[type="file"] {
+    width: 100%;
+}
+
+#imagePreview {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-top: 15px;
+    padding: 8px;
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+}
+
+#uploadStatus {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #666;
+}
+/* =========================
+   DASHBOARD STATS
+========================= */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 22px;
+
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 18px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+
+    transition: 0.3s ease;
+}
+
+.stat-card::after {
+    content: "";
+    position: absolute;
+
+    width: 90px;
+    height: 90px;
+
+    right: -35px;
+    top: -35px;
+
+    border-radius: 50%;
+
+    background: rgba(76, 175, 80, 0.06);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.09);
+}
+
+.stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 55px;
+    height: 55px;
+
+    flex-shrink: 0;
+
+    border-radius: 15px;
+
+    background: #edf7ee;
+
+    font-size: 26px;
+}
+
+.stat-card p {
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.stat-card h3 {
+    color: #173d1e;
+    font-size: 28px;
+}
+
+@media (max-width: 750px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+        <h2>St. Joseph Products</h2>
+        <p>Admin Dashboard</p>
+
+        <button id="logoutBtn">Logout</button>
+    </aside>
+
+
+    <main class="main">
+
+        <div class="topbar">
+            <div>
+                <h1>Product Management</h1>
+                <p class="admin-email" id="adminEmailText"></p>
+            </div>
+        </div>
+ 
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div>
+            <p>Total Products</p>
+            <h3 id="totalProducts">0</h3>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">🥛</div>
+        <div>
+            <p>Yoghurt</p>
+            <h3 id="yoghurtCount">0</h3>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">🧃</div>
+        <div>
+            <p>Yoghurt Drinks</p>
+            <h3 id="drinkCount">0</h3>
+        </div>
+    </div>
+
+</div>
+        <section class="panel">
+            <h2 id="formTitle">Add New Product</h2>
+
+            <form id="productForm">
+
+                <div class="form-grid">
+
+                    <input
+                        type="text"
+                        id="productName"
+                        placeholder="Product Name"
+                        required
+                    >
+
+                    <select id="productCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Yoghurt">Yoghurt</option>
+                        <option value="Yoghurt Drink">Yoghurt Drink</option>
+                        <option value="Dessert">Dessert</option>
+                    </select>
+
+                   <div class="image-upload-box">
+
+    <label for="productImageFile">
+        Product Image
+    </label>
+
+    <input
+        type="file"
+        id="productImageFile"
+        accept="image/png, image/jpeg, image/webp"
+    >
+
+    <img
+        id="imagePreview"
+        alt="Product preview"
+        style="display:none;"
+    >
+
+    <p id="uploadStatus"></p>
+
+</div>
+
+                    <input
+                        type="text"
+                        id="productSize"
+                        placeholder="Size e.g. 80ml / 200ml"
+                    >
+
+                    <textarea
+                        id="productDescription"
+                        placeholder="Product Description"
+                        required
+                    ></textarea>
+
+                    <div class="form-actions">
+
+                        <button
+                            type="submit"
+                            class="save-btn"
+                            id="saveBtn">
+                            Save Product
+                        </button>
+
+                        <button
+                            type="button"
+                            class="cancel-btn"
+                            id="cancelBtn">
+                            Cancel Edit
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <p id="statusMessage"></p>
+
+            </form>
+        </section>
+
+
+        <section class="panel">
+            <h2>Products</h2>
+
+            <table class="products-table">
+
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Size</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="productsTableBody">
+                </tbody>
+
+            </table>
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
+<script src="firebase-config.js"></script>
+
+
+<script>
+    firebase.initializeApp(firebaseConfig);
+
+    const auth = firebase.auth();
+    const OWNER_UID = "3JGgArfvJ9MiptYPlSE02rPh2cu2";
+    const db = firebase.firestore();
+
+    const productForm = document.getElementById('productForm');
+    const productsTableBody = document.getElementById('productsTableBody');
+    const statusMessage = document.getElementById('statusMessage');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const adminEmailText = document.getElementById('adminEmailText');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const formTitle = document.getElementById('formTitle');
+
+    let editingProductId = null;
+    let currentImageUrl = '';
+
+const productImageFile =
+    document.getElementById('productImageFile');
+
+const imagePreview =
+    document.getElementById('imagePreview');
+
+const uploadStatus =
+    document.getElementById('uploadStatus');
+    productImageFile.addEventListener('change', function () {
+
+    const file = productImageFile.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const previewUrl = URL.createObjectURL(file);
+
+    imagePreview.src = previewUrl;
+    imagePreview.style.display = 'block';
+
+    uploadStatus.textContent =
+        'Image selected and ready to upload.';
+    });
+async function uploadProductImage(file) {
+
+    const cloudinaryData = new FormData();
+
+    cloudinaryData.append('file', file);
+    cloudinaryData.append(
+        'upload_preset',
+        'st_joseph_products'
+    );
+
+    const response = await fetch(
+        'https://api.cloudinary.com/v1_1/cmns64fb/image/upload',
+        {
+            method: 'POST',
+            body: cloudinaryData
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error('Image upload failed');
+    }
+
+    const data = await response.json();
+
+    return data.secure_url;
+}
+    auth.onAuthStateChanged(async function(user) {
+
+    if (!user || user.uid !== OWNER_UID) {
+
+        if (user) {
+            await auth.signOut();
+        }
+
+        window.location.href = 'admin.html';
+        return;
+    }
+
+    adminEmailText.textContent = user.email;
+
+    loadProducts();
+});
+
+
+    logoutBtn.addEventListener('click', async function() {
+
+        await auth.signOut();
+
+        window.location.href = 'admin.html';
+    });
+
+
+    productForm.addEventListener('submit', async function(event) {
+
+        event.preventDefault();
+const selectedImage = productImageFile.files[0];
+
+try {
+
+    if (selectedImage) {
+
+        uploadStatus.textContent = 'Uploading image...';
+
+        currentImageUrl =
+            await uploadProductImage(selectedImage);
+
+        uploadStatus.textContent =
+            '✓ Image uploaded successfully!';
+    }
+
+    if (!currentImageUrl) {
+
+        statusMessage.style.color = '#c62828';
+
+        statusMessage.textContent =
+            'Please select a product image.';
+
+        return;
+    }
+
+} catch (error) {
+
+    console.error(error);
+
+    statusMessage.style.color = '#c62828';
+
+    statusMessage.textContent =
+        'Image upload failed. Please try again.';
+
+    return;
+}
+        const productData = {
+            name: document.getElementById('productName').value.trim(),
+            category: document.getElementById('productCategory').value,
+           image: currentImageUrl,
+            size: document.getElementById('productSize').value.trim(),
+            description: document.getElementById('productDescription').value.trim(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        statusMessage.style.color = '#2e7d32';
+        statusMessage.textContent = 'Saving product...';
+
+        try {
+
+            if (editingProductId) {
+
+                await db.collection('products')
+                    .doc(editingProductId)
+                    .update(productData);
+
+                statusMessage.textContent =
+                    '✓ Product updated successfully!';
+
+            } else {
+
+                productData.createdAt =
+                    firebase.firestore.FieldValue.serverTimestamp();
+
+                await db.collection('products')
+                    .add(productData);
+
+                statusMessage.textContent =
+                    '✓ Product added successfully!';
+            }
+
+            resetForm();
+
+        } catch (error) {
+
+            console.error(error);
+
+            statusMessage.style.color = '#c62828';
+
+            statusMessage.textContent =
+                'Could not save product. Please try again.';
+        }
+    });
+
+
+    function loadProducts() {
+
+        db.collection('products')
+            .orderBy('createdAt', 'desc')
+            .onSnapshot(function(snapshot) {
+
+                productsTableBody.innerHTML = '';
+                document.getElementById('totalProducts').textContent =
+    snapshot.size;
+
+let yoghurtCount = 0;
+let drinkCount = 0;
+
+snapshot.docs.forEach(function(doc) {
+
+    const category =
+        (doc.data().category || '').trim().toLowerCase();
+
+    if (category === 'yoghurt') {
+        yoghurtCount++;
+    }
+
+    if (category === 'yoghurt drink') {
+        drinkCount++;
+    }
+});
+
+document.getElementById('yoghurtCount').textContent =
+    yoghurtCount;
+
+document.getElementById('drinkCount').textContent =
+    drinkCount;
+                snapshot.forEach(function(doc) {
+
+                    const product = doc.data();
+
+                    const row = document.createElement('tr');
+
+                    row.innerHTML = `
+                        <td>
+                            <img
+                                src="${product.image}"
+                                alt="${product.name}"
+                                class="product-thumb"
+                            >
+                        </td>
+
+                        <td>
+                            <strong>${product.name}</strong>
+                            <br>
+                            <small>${product.description}</small>
+                        </td>
+
+                        <td>${product.category || ''}</td>
+
+                        <td>${product.size || ''}</td>
+
+                        <td>
+                            <button
+                                class="action-btn edit-btn"
+                                onclick="editProduct('${doc.id}')">
+                                Edit
+                            </button>
+
+                            <button
+                                class="action-btn delete-btn"
+                                onclick="deleteProduct('${doc.id}')">
+                                Delete
+                            </button>
+                        </td>
+                    `;
+
+                    productsTableBody.appendChild(row);
+                });
+            });
+    }
+
+
+    async function editProduct(productId) {
+
+        const doc = await db.collection('products')
+            .doc(productId)
+            .get();
+
+        if (!doc.exists) {
+            return;
+        }
+
+        const product = doc.data();
+
+        editingProductId = productId;
+
+        document.getElementById('productName').value =
+            product.name || '';
+
+        document.getElementById('productCategory').value =
+            product.category || '';
+
+        currentImageUrl = product.image || '';
+
+if (currentImageUrl) {
+    imagePreview.src = currentImageUrl;
+    imagePreview.style.display = 'block';
+
+    uploadStatus.textContent =
+        'Current product image. Choose a new image only if you want to replace it.';
+}
+
+        document.getElementById('productSize').value =
+            product.size || '';
+
+        document.getElementById('productDescription').value =
+            product.description || '';
+
+        formTitle.textContent = 'Edit Product';
+
+        document.getElementById('saveBtn').textContent =
+            'Update Product';
+
+        cancelBtn.style.display = 'inline-block';
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+
+
+    async function deleteProduct(productId) {
+
+        const confirmed =
+            confirm('Are you sure you want to delete this product?');
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+
+            await db.collection('products')
+                .doc(productId)
+                .delete();
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert('Could not delete product.');
+        }
+    }
+
+
+    cancelBtn.addEventListener('click', function() {
+        resetForm();
+    });
+
+
+    function resetForm() {
+
+        productForm.reset();
+        currentImageUrl = '';
+
+imagePreview.src = '';
+imagePreview.style.display = 'none';
+
+uploadStatus.textContent = '';
+
+        editingProductId = null;
+
+        formTitle.textContent =
+            'Add New Product';
+
+        document.getElementById('saveBtn').textContent =
+            'Save Product';
+
+        cancelBtn.style.display =
+            'none';
+    }
+</script>
+
+</body>
+</html>
